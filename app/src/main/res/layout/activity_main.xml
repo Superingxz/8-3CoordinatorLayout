@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="org.mobiletrain.a8_3coordinatorlayout.MainActivity">
+
+    <!--
+    CoordinatorLayout布局整体上分为两大块，第一部分为上面的头布局，第二部分为底部的滑动布局。
+    头布局必须是AppBarLayout
+    
+    第二部分滑动控件目前只支持两种：
+    1.NestedScrollView
+    2.RecyclerView
+
+
+    app:contentScrim="@color/colorPrimary"表示当ImageView折叠到最小高度时，ToolBar的颜色
+
+    app:layout_scrollFlags="scroll" 设置头布局的折叠标签，一共有五种取值：
+    1.scroll 表示当第二部分的滚动布局开始滚动时，头布局就开始滚动
+    2.enterAlways 表示只要一向下滑动，头布局就显示出来
+    3.exitUntilCollapsed 表示当头布局折叠到最小高度时（ToolBar的高度），就不再折叠
+    4.enterAlwaysCollapsed 表示当底部的滑动控件见顶时，头布局才开始展开
+    5.snap 表示头布局在折叠的过程中会就近停靠
+
+
+    app:layout_collapseMode="parallax" 表示ImageView的折叠速率和头布局的折叠速率不同步
+    app:layout_collapseParallaxMultiplier="1" 表示一个视觉乘数，实际为ImageView和头布局折叠时的视觉差
+    该属性的取值范围为0～1，
+    0表示顶部折叠，底部不折叠
+    1表示顶部不折叠，底部折叠
+    0.5表示上下折叠速率一致，大于0.5表示底部折叠速率大于顶部折叠速率
+
+    app:layout_collapseMode="pin" 表示当头布局折叠完成后停靠在顶部的控件
+
+    如果使用CoordinatorLayout作为根布局，推荐使用CollaspingToolbarLayout中的app:title="MyApp"属性来为App设置title。
+    app:collapsedTitleGravity="right" 表示当头布局折叠完成之后Title的位置
+    app:expandedTitleGravity="right|bottom" 表示当头布局展开时Title的位置（默认是在左下角）
+    app:expandedTitleMargin="" 设置当不布局展开时Title上下左右四个方向的边距
+    -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbarlayout"
+        android:layout_width="match_parent"
+        android:layout_height="180dp">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:collapsedTitleGravity="left"
+            app:contentScrim="@color/colorPrimary"
+            app:expandedTitleGravity="right|bottom"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed|snap"
+            app:title="MyApp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/header_bg"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.7"/>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:title="MyApp"></android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+
+    <!--
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+     表示底部滚动控件的滚动行为，实际为控件滚动动画对应的类的地址
+    -->
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/book_content"/>
+    </android.support.v4.widget.NestedScrollView>
+
+    <!--
+    app:fabSize="mini" 表示控件的大小
+    下面两个属性在CoordinatorLayout中才有效
+    app:layout_anchor="@id/appbarlayout" 表示FAB显示时参考的位置
+    app:layout_anchorGravity="bottom|right" 表示控件显示的位置
+    app:elevation="5dp" 设置FAB的Z轴高度，设置之后会有阴影效果
+    app:backgroundTint="@color/colorPrimary" 设置背景颜色
+    -->
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@android:drawable/ic_input_add"
+        app:elevation="5dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabSize="normal"
+        android:onClick="fabClick"
+        app:layout_anchor="@id/appbarlayout"
+        app:layout_anchorGravity="bottom|right"/>
+
+</android.support.design.widget.CoordinatorLayout>
